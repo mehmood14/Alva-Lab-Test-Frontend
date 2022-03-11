@@ -1,0 +1,25 @@
+.img {
+  width: 4%;
+  border-radius: 60px;
+}
+
+.example-card {
+  width: 100%;
+}
+
+.submit-button {
+  color: #fff;
+  background: #000000;
+}
+
+.cancel-button {
+  color: #000000;
+  border: 1px solid #000000 !important;
+}
+.heading {
+  background-color: black;
+  color: white;
+  padding: 1%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}

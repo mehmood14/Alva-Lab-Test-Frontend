@@ -11,6 +11,7 @@ router.get("/ping", (req, res) => {
 
 router.post("/transactions", (req, res) => {
   try {
+    let newTransId = uuid.v4();
     let { account_id, amount } = req.body;
 
     let pattern =
@@ -30,6 +31,7 @@ router.post("/transactions", (req, res) => {
     let transactionRequest = new TransactionRequest();
     transactionRequest.account_id = account_id;
     transactionRequest.amount = amount * positiveAmount;
+    transactionRequest.transaction_id = newTransId;
 
     transactionRequest.save((error, result) => {
       errorHandling(error, result);
@@ -66,7 +68,7 @@ router.post("/transactions", (req, res) => {
 
       //finally add the transaction with transaction id in transaction schema
       let transaction = new Transaction();
-      transaction.transaction_id = uuid.v4();
+      transaction.transaction_id = newTransId;
       transaction.account_id = account_id;
       transaction.amount = amount;
 
@@ -74,11 +76,7 @@ router.post("/transactions", (req, res) => {
         errorHandling(error, data);
       });
 
-      res.send({
-        success: true,
-        message: "fav added successfully",
-        data: result,
-      });
+      res.status(201).send(result);
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -88,7 +86,7 @@ router.post("/transactions", (req, res) => {
 router.get("/transactions", (req, res) => {
   Transaction.find((error, data) => {
     errorHandling(error, data);
-    res.send({
+    res.status(200).send({
       success: true,
       message: "user orders",
       data: data,
@@ -101,10 +99,7 @@ router.get("/accounts/:account_id", (req, res) => {
     Account.findOne({ account_id: req.params.account_id }, (error, data) => {
       errorHandling(error, data);
 
-      res.send({
-        success: true,
-        data: data,
-      });
+      res.status(200).send(data);
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -113,15 +108,12 @@ router.get("/accounts/:account_id", (req, res) => {
 
 router.get("/transactions/:transaction_id", (req, res) => {
   try {
-    Transaction.findOne(
+    TransactionRequest.findOne(
       { transaction_id: req.params.transaction_id },
       (error, data) => {
         errorHandling(error, data);
 
-        res.send({
-          success: true,
-          data: data,
-        });
+        res.status(200).send(data);
       }
     );
   } catch (error) {

@@ -11,6 +11,9 @@ let TransactionRequest = new Schema(
     amount: {
       type: Number,
     },
+    transaction_id: {
+      type: String,
+    },
   },
   {
     collection: "transactionsRequests",

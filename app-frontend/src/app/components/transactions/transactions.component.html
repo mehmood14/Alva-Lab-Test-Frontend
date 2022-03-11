@@ -18,7 +18,7 @@
       <div class="col-sm-2"></div>
 
       <div class="col-sm-4">
-        <form [formGroup]="transactionForm">
+        <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
           <mat-card class="example-card">
             <div class="d-flex align-items-center mb-2">
               <mat-icon class="mb-2 mr-2">add_circle</mat-icon>
@@ -29,7 +29,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>Account ID</mat-label>
                 <input
-                  data-type="account-id"
+                  data-type="account_id"
                   matInput
                   type="text"
                   formControlName="account_id"
@@ -73,7 +73,6 @@
                 mat-raised-button
                 [disabled]="!transactionForm.valid"
                 class="submit-button"
-                (click)="onSubmit()"
               >
                 Submit
               </button>

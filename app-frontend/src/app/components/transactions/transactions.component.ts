@@ -99,7 +99,7 @@ export class TransactionsComponent implements OnInit {
         }
       },
       (error) => {
-        this.alertService.danger(error);
+        this.alertService.danger(error.error.message);
       }
     );
   }

@@ -3,6 +3,7 @@ const router = express.Router();
 let TransactionRequest = require("../models/transaction-request");
 let Account = require("../models/account");
 let Transaction = require("../models/transaction");
+var uuid = require("uuid");
 
 router.get("/ping", (req, res) => {
   res.send("pong");
@@ -12,6 +13,16 @@ router.post("/transactions", (req, res) => {
   try {
     let { account_id, amount } = req.body;
 
+    let pattern =
+      /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    let result = pattern.test(account_id);
+
+    if (!result) {
+      return res.status(400).json({
+        success: false,
+        message: "account_id must be a valid UUID v4",
+      });
+    }
     let positiveAmount;
     amount > 0 ? (positiveAmount = 1) : (positiveAmount = -1);
 
@@ -55,7 +66,7 @@ router.post("/transactions", (req, res) => {
 
       //finally add the transaction with transaction id in transaction schema
       let transaction = new Transaction();
-      transaction.transaction_id = "11111";
+      transaction.transaction_id = uuid.v4();
       transaction.account_id = account_id;
       transaction.amount = amount;
 

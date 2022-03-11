@@ -18,6 +18,14 @@ export class TransactionsComponent implements OnInit {
 
   amount: FormControl = new FormControl('', [Validators.required]);
   account_id: FormControl = new FormControl('', [Validators.required]);
+
+  withdraw: boolean = false;
+  deposit: boolean = false;
+
+  transaction_amount: number = 0;
+  total_balance!: number;
+
+  transaction_account_id: string = 'abc';
   transactions_data = [];
 
   constructor(
@@ -53,14 +61,40 @@ export class TransactionsComponent implements OnInit {
     );
   }
 
+  getBalance(id: string) {
+    this.allService.getAccountById(id).subscribe(
+      (res: any) => {
+        if (res.success == false) {
+          this.alertService.warning('Something went wrong');
+        } else {
+          this.total_balance = res.balance;
+        }
+      },
+      (error) => {
+        this.alertService.danger(error);
+      }
+    );
+  }
+
   onSubmit() {
+    this.overAllTransactions();
+    this.transaction_amount = this.transactionForm.value.amount;
+    this.transaction_account_id = this.transactionForm.value.account_id;
+
     this.allService.addTransactions(this.transactionForm.value).subscribe(
       (res: any) => {
         if (res.success == false) {
           this.alertService.warning('Something went wrong');
         } else {
           this.alertService.success('Transaction completed successfully.');
-
+          if (this.transaction_amount > 0) {
+            this.deposit = true;
+            this.withdraw = false;
+          } else {
+            this.deposit = false;
+            this.withdraw = true;
+          }
+          this.getBalance(this.transaction_account_id);
           this.transactionForm.reset();
         }
       },
@@ -70,5 +104,7 @@ export class TransactionsComponent implements OnInit {
     );
   }
 
-  clearForm() {}
+  clearForm() {
+    this.transactionForm.reset();
+  }
 }

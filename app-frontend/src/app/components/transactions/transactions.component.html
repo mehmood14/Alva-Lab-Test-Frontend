@@ -52,6 +52,7 @@
                 Clear
               </button>
               <button
+                data-test="btn-customers"
                 mat-raised-button
                 [disabled]="!transactionForm.valid"
                 class="submit-button"
@@ -64,7 +65,7 @@
         </form>
       </div>
 
-      <div class="col-sm-4">
+      <div class="col-sm-4 mb-5">
         <mat-card class="example-card mb-2" *ngIf="deposit">
           <div class="d-flex align-items-center mb-2">
             <mat-icon class="mb-2 mr-2">visibility</mat-icon>

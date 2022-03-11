@@ -1,7 +1,7 @@
-const apiUrl = `${Cypress.env("apiUrl")}`
+const apiUrl = `${Cypress.env("apiUrl")}`;
 
-describe('Frontend Test Spec', () => {
-  it('should visit index', () => {
-    cy.visit('/')
-  })
-})
+describe("Frontend Test Spec", () => {
+  it("should visit index", () => {
+    cy.visit("/");
+  });
+});

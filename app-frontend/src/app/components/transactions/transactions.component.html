@@ -8,7 +8,13 @@
       <h2 style="font-size: 22px">Transaction Management System</h2>
     </div>
 
-    <div class="row mt-4 mob-view">
+    <div
+      class="row mt-4 mob-view"
+      data-type="transaction"
+      data-account-id="${transaction-account-id}"
+      data-amount="${transaction-amount}"
+      data-balance="${current-account-balance}"
+    >
       <div class="col-sm-2"></div>
 
       <div class="col-sm-4">
@@ -22,7 +28,12 @@
             <mat-card-content>
               <mat-form-field appearance="outline">
                 <mat-label>Account ID</mat-label>
-                <input matInput type="text" formControlName="account_id" />
+                <input
+                  data-type="account-id"
+                  matInput
+                  type="text"
+                  formControlName="account_id"
+                />
                 <mat-icon *ngIf="account_id.valid" matSuffix>done</mat-icon>
                 <mat-error *ngIf="account_id.hasError('required')">
                   Account Id is Required
@@ -34,7 +45,12 @@
                 class="mat-form-field-height"
               >
                 <mat-label>Amount</mat-label>
-                <input matInput type="number" formControlName="amount" />
+                <input
+                  data-type="amount"
+                  matInput
+                  type="number"
+                  formControlName="amount"
+                />
                 <mat-icon class="validFieldTick" *ngIf="amount.valid" matSuffix
                   >done</mat-icon
                 >
@@ -52,7 +68,8 @@
                 Clear
               </button>
               <button
-                data-test="btn-customers"
+                data-type="transaction-submit"
+                type="submit"
                 mat-raised-button
                 [disabled]="!transactionForm.valid"
                 class="submit-button"

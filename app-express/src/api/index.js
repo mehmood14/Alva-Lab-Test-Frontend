@@ -74,7 +74,7 @@ router.post("/transactions", (req, res) => {
         errorHandling(error, data);
       });
 
-      res.status(200).json({
+      res.send({
         success: true,
         message: "fav added successfully",
         data: result,
@@ -88,7 +88,7 @@ router.post("/transactions", (req, res) => {
 router.get("/transactions", (req, res) => {
   Transaction.find((error, data) => {
     errorHandling(error, data);
-    res.status(200).json({
+    res.send({
       success: true,
       message: "user orders",
       data: data,
@@ -101,11 +101,29 @@ router.get("/accounts/:account_id", (req, res) => {
     Account.findOne({ account_id: req.params.account_id }, (error, data) => {
       errorHandling(error, data);
 
-      res.status(200).json({
+      res.send({
         success: true,
         data: data,
       });
     });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+router.get("/transactions/:transaction_id", (req, res) => {
+  try {
+    Transaction.findOne(
+      { transaction_id: req.params.transaction_id },
+      (error, data) => {
+        errorHandling(error, data);
+
+        res.send({
+          success: true,
+          data: data,
+        });
+      }
+    );
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

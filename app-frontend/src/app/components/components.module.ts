@@ -3,15 +3,17 @@ import { CommonModule } from '@angular/common';
 
 import { ComponentsRoutingModule } from './components-routing.module';
 import { TransactionsComponent } from './transactions/transactions.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../core/material/material.module';
 
 @NgModule({
-  declarations: [
-    TransactionsComponent
-  ],
+  declarations: [TransactionsComponent],
   imports: [
     CommonModule,
-    ComponentsRoutingModule
-  ]
+    ComponentsRoutingModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

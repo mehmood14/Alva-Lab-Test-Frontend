@@ -4,110 +4,120 @@
       <img class="img" src="../../../assets/download.jpg" alt="" />
       <h2 class="ml-3">Alva Labs Test</h2>
     </div>
-    <div class="row justify-content-center mt-5 mob-view">
+    <div class="row justify-content-center mt-5">
       <h2>Transaction Management System</h2>
     </div>
 
-    <div class="col-sm-4">
-      <form [formGroup]="transactionForm">
-        <mat-card class="example-card">
-          <div class="d-flex align-items-center mb-2">
-            <mat-icon class="mb-2 mr-2">add_circle</mat-icon>
+    <div class="row mt-4">
+      <div class="col-sm-2"></div>
 
-            <h4>New Transaction</h4>
+      <div class="col-sm-4">
+        <form [formGroup]="transactionForm">
+          <mat-card class="example-card">
+            <div class="d-flex align-items-center mb-2">
+              <mat-icon class="mb-2 mr-2">add_circle</mat-icon>
+
+              <h4>New Transaction</h4>
+            </div>
+            <mat-card-content>
+              <mat-form-field appearance="outline">
+                <mat-label>Account ID</mat-label>
+                <input matInput type="text" formControlName="account_id" />
+                <mat-icon *ngIf="account_id.valid" matSuffix>done</mat-icon>
+                <mat-error *ngIf="account_id.hasError('required')">
+                  Account Id is Required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field
+                appearance="outline"
+                class="mat-form-field-height"
+              >
+                <mat-label>Amount</mat-label>
+                <input matInput type="number" formControlName="amount" />
+                <mat-icon class="validFieldTick" *ngIf="amount.valid" matSuffix
+                  >done</mat-icon
+                >
+                <mat-error *ngIf="amount.hasError('required')">
+                  Amount is Required
+                </mat-error>
+              </mat-form-field>
+            </mat-card-content>
+            <div class="d-flex justify-content-between">
+              <button
+                mat-raised-button
+                class="cancel-button"
+                (click)="clearForm()"
+              >
+                Clear
+              </button>
+              <button
+                mat-raised-button
+                [disabled]="!transactionForm.valid"
+                class="submit-button"
+                (click)="onSubmit()"
+              >
+                Submit
+              </button>
+            </div>
+          </mat-card>
+        </form>
+      </div>
+
+      <div class="col-sm-4">
+        <mat-card class="example-card mb-2" *ngIf="deposit">
+          <div class="d-flex align-items-center mb-2">
+            <mat-icon class="mb-2 mr-2">visibility</mat-icon>
+
+            <h4>Recent Transaction (Deposit)</h4>
           </div>
           <mat-card-content>
-            <mat-form-field appearance="outline">
-              <mat-label>Account ID</mat-label>
-              <input matInput type="text" formControlName="account_id" />
-              <mat-icon *ngIf="account_id.valid" matSuffix>done</mat-icon>
-              <mat-error *ngIf="account_id.hasError('required')">
-                Account Id is Required
-              </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="mat-form-field-height">
-              <mat-label>Amount</mat-label>
-              <input matInput type="number" formControlName="amount" />
-              <mat-icon class="validFieldTick" *ngIf="amount.valid" matSuffix
-                >done</mat-icon
-              >
-              <mat-error *ngIf="amount.hasError('required')">
-                Amount is Required
-              </mat-error>
-            </mat-form-field>
+            Transferred <b>{{ transaction_amount }}$ </b> to account
+            <b>{{ transaction_account_id }} </b>
           </mat-card-content>
-          <div class="d-flex justify-content-between">
-            <button
-              mat-raised-button
-              class="cancel-button"
-              (click)="clearForm()"
-            >
-              Clear
-            </button>
-            <button
-              mat-raised-button
-              [disabled]="!transactionForm.valid"
-              class="submit-button"
-              (click)="onSubmit()"
-            >
-              Submit
-            </button>
-          </div>
+
+          <hr />
+
+          Current account balance is <b>{{ total_balance }}$ </b>
         </mat-card>
-      </form>
 
-      <mat-card class="example-card mb-2" *ngIf="deposit">
-        <div class="d-flex align-items-center mb-2">
-          <mat-icon class="mb-2 mr-2">visibility</mat-icon>
+        <mat-card class="example-card mb-2" *ngIf="withdraw">
+          <div class="d-flex align-items-center mb-2">
+            <mat-icon class="mb-2 mr-2">visibility</mat-icon>
 
-          <h4>Recent Transaction (Deposit)</h4>
-        </div>
-        <mat-card-content>
-          Transferred <b>{{ transaction_amount }}$ </b> to account
-          <b>{{ transaction_account_id }} </b>
-        </mat-card-content>
+            <h4>Recent Transaction (Withdrawal)</h4>
+          </div>
 
-        <hr />
+          <mat-card-content>
+            Transferred <b>{{ transaction_amount * -1 }}$</b> from account
+            <b>{{ transaction_account_id }}</b>
 
-        Current account balance is <b>{{ total_balance }}$ </b>
-      </mat-card>
+            <hr />
 
-      <mat-card class="example-card mb-2" *ngIf="withdraw">
-        <div class="d-flex align-items-center mb-2">
-          <mat-icon class="mb-2 mr-2">visibility</mat-icon>
+            Current account balance is <b>{{ total_balance }}$</b>
+          </mat-card-content>
+        </mat-card>
 
-          <h4>Recent Transaction (Withdrawal)</h4>
-        </div>
+        <mat-card class="example-card transaction-card">
+          <div class="d-flex align-items-center mb-2">
+            <mat-icon class="mb-2 mr-2">visibility</mat-icon>
 
-        <mat-card-content>
-          Transferred <b>{{ transaction_amount * -1 }}$</b> from account
-          <b>{{ transaction_account_id }}</b>
-
-          <hr />
-
-          Current account balance is <b>{{ total_balance }}$</b>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="example-card transaction-card">
-        <div class="d-flex align-items-center mb-2">
-          <mat-icon class="mb-2 mr-2">visibility</mat-icon>
-
-          <h4>Overall Transactions</h4>
-        </div>
-        <mat-card-content *ngFor="let val of transactions_data">
-          <span *ngIf="val.amount > 0">
-            Transferred <b> {{ val.amount }}$</b> to account
-            <b>{{ val.account_id }}</b>
-          </span>
-          <span *ngIf="val.amount < 0">
-            Transferred <b> {{ val.amount * -1 }}$</b> from account
-            <b>{{ val.account_id }}</b>
-          </span>
-          <hr />
-        </mat-card-content>
-      </mat-card>
+            <h4>Overall Transactions</h4>
+          </div>
+          <mat-card-content *ngFor="let val of transactions_data">
+            <span *ngIf="val.amount > 0">
+              Transferred <b> {{ val.amount }}$</b> to account
+              <b>{{ val.account_id }}</b>
+            </span>
+            <span *ngIf="val.amount < 0">
+              Transferred <b> {{ val.amount * -1 }}$</b> from account
+              <b>{{ val.account_id }}</b>
+            </span>
+            <hr />
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-sm-2"></div>
     </div>
   </div>
 </div>

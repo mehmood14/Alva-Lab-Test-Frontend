@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiService {
-  url = 'https://infra.devskills.app/api/transaction-management';
+  url = 'http://localhost:5000';
 
   constructor(private http: HttpClient) {}
 

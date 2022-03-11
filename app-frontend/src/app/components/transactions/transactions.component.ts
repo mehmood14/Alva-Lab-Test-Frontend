@@ -52,7 +52,7 @@ export class TransactionsComponent implements OnInit {
         if (res.success == false) {
           this.alertService.warning('Something went wrong');
         } else {
-          this.transactions_data = res;
+          this.transactions_data = res.data;
         }
       },
       (error) => {
@@ -67,7 +67,7 @@ export class TransactionsComponent implements OnInit {
         if (res.success == false) {
           this.alertService.warning('Something went wrong');
         } else {
-          this.total_balance = res.balance;
+          this.total_balance = res.data.balance;
         }
       },
       (error) => {

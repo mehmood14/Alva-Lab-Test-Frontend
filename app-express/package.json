@@ -1,0 +1,15 @@
+{
+  "name": "backend-boilerplate",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "npm install",
+    "start": "nodemon ./src/server/index.js",
+    "test": "cypress run"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^6.2.5",
+    "nodemon": "^2.0.7"
+  }
+}
